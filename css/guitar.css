@@ -1,0 +1,123 @@
+:root {
+  --frets-background: black;
+  --fret-width: 70px;
+  --fret-background: white;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.guitar {
+  display: flex;
+  position: relative;
+  width: min-content;
+  height: 240px;
+}
+
+.strings {
+  flex: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.string {
+  width: 100%;
+  border-top: 1px solid #000;
+}
+
+.string:nth-child(1) {
+  border-top: 1px solid #000;
+}
+
+.string:nth-child(2) {
+  border-top: 2px solid #000;
+}
+
+.string:nth-child(3) {
+  border-top: 3px solid #000;
+}
+
+.string:nth-child(4) {
+  border-top: 4px solid #000;
+}
+
+.string:nth-child(5) {
+  border-top: 5px solid #000;
+}
+
+.string:nth-child(6) {
+  border-top: 6px solid #000;
+}
+
+.nuts {
+  background-color: white;
+  border-right: 1px solid #000;
+  flex-direction: column;
+  flex: 1;
+  min-width: 24px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+
+.note {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  border: 1px solid #000;
+}
+
+.nuts .note {
+  margin-right:  1rem;
+}
+
+.note:nth-child(1) {
+  top: -12px;
+}
+
+.note:nth-child(2) {
+  top: 34px;
+}
+
+.note:nth-child(3) {
+  top: 78px;
+}
+
+.note:nth-child(4) {
+  top: 125px;
+}
+
+.note:nth-child(5) {
+  top: 174px;
+}
+
+.note:nth-child(6) {
+  top: 223px;
+}
+
+.frets {
+  display: flex;
+  gap: 4px;
+  width: min-content;
+  background: var(--frets-background);
+}
+
+.fret {
+  width: var(--fret-width);
+  background: var(--fret-background);
+}
