@@ -86,27 +86,27 @@ body {
   margin-right:  1rem;
 }
 
-.note:nth-child(1) {
+.nuts .note:nth-child(1) {
   top: -12px;
 }
 
-.note:nth-child(2) {
+.nuts .note:nth-child(2) {
   top: 34px;
 }
 
-.note:nth-child(3) {
+.nuts .note:nth-child(3) {
   top: 78px;
 }
 
-.note:nth-child(4) {
+.nuts .note:nth-child(4) {
   top: 125px;
 }
 
-.note:nth-child(5) {
+.nuts .note:nth-child(5) {
   top: 174px;
 }
 
-.note:nth-child(6) {
+.nuts .note:nth-child(6) {
   top: 223px;
 }
 
