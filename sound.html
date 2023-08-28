@@ -17,6 +17,7 @@
       <div><strong>5</strong>: <span>G3</span></div>
       <div><strong>6</strong>: <span>A3</span></div>
       <div><strong>7</strong>: <span>B3</span></div>
+      <div><strong>8</strong>: <span>C4</span></div>
       <br />
       <div><strong>q</strong>: <span>Decrease 5Hz</span></div>
       <div><strong>p</strong>: <span>Increase 5Hz</span></div>
@@ -66,24 +67,35 @@
         },
 
         // 1 to 7
-        49: { press: () => (frequency = note("C")) },
-        50: { press: () => (frequency = note("D")) },
-        51: { press: () => (frequency = note("E")) },
-        52: { press: () => (frequency = note("F")) },
-        53: { press: () => (frequency = note("G")) },
-        54: { press: () => (frequency = note("A")) },
-        55: { press: () => (frequency = note("B")) },
+        49: { press: () => (frequency = note("C3")) },
+        50: { press: () => (frequency = note("D3")) },
+        51: { press: () => (frequency = note("E3")) },
+        52: { press: () => (frequency = note("F3")) },
+        53: { press: () => (frequency = note("G3")) },
+        54: { press: () => (frequency = note("A3")) },
+        55: { press: () => (frequency = note("B3")) },
+        56: { press: () => (frequency = note("C4")) },
+      };
+
+      var generatePitches = (name, baseHz, base, level) => {
+        var pitches = [];
+        for (var i = base; i <= level; i++) {
+          pitches[`${name}${i}`] = {
+            frequency: baseHz * Math.pow(2, (12 * i) / 12),
+          };
+        }
+        return pitches;
       };
 
       var note = (name) => notes[name].frequency;
       var notes = {
-        C: { frequency: 130.81 },
-        D: { frequency: 146.83 },
-        E: { frequency: 164.81 },
-        F: { frequency: 174.61 },
-        G: { frequency: 196.0 },
-        A: { frequency: 220.0 },
-        B: { frequency: 246.94 },
+        ...generatePitches("C", 16.35, 0, 8),
+        ...generatePitches("D", 18.35, 0, 8),
+        ...generatePitches("E", 20.6, 0, 8),
+        ...generatePitches("F", 21.83, 0, 8),
+        ...generatePitches("G", 24.5, 0, 8),
+        ...generatePitches("A", 27.5, 0, 8),
+        ...generatePitches("B", 30.87, 0, 8),
       };
 
       var audioCtx = new AudioContext();
