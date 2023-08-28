@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>SOUND</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
     <div>Frequence: <span id="frequency"></span> Hz</div>
@@ -25,6 +27,9 @@
       <div><strong>o</strong>: <span>Increase 0.5Hz</span></div>
       <div><strong>e</strong>: <span>Decrease 0.05Hz</span></div>
       <div><strong>i</strong>: <span>Increase 0.05Hz</span></div>
+      <br />
+      <input style="opacity: 0; width: 0" type="text" />
+      <button onclick="openKeyboard();">Open Keyboard</button>
     </div>
 
     <script type="text/javascript">
@@ -124,6 +129,11 @@
         update();
         requestAnimationFrame(manualLoop);
       })();
+
+      function openKeyboard() {
+        console.log("show");
+        document.querySelector("input").focus();
+      }
     </script>
   </body>
 </html>
