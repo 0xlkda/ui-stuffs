@@ -9,13 +9,19 @@
     <br />
     <div>
       <div><strong>SPACE</strong>: <span>Play / Mute</span></div>
-
+      <br />
+      <div><strong>1</strong>: <span>C3</span></div>
+      <div><strong>2</strong>: <span>D3</span></div>
+      <div><strong>3</strong>: <span>E3</span></div>
+      <div><strong>4</strong>: <span>F3</span></div>
+      <div><strong>5</strong>: <span>G3</span></div>
+      <div><strong>6</strong>: <span>A3</span></div>
+      <div><strong>7</strong>: <span>B3</span></div>
+      <br />
       <div><strong>q</strong>: <span>Decrease 5Hz</span></div>
       <div><strong>p</strong>: <span>Increase 5Hz</span></div>
-
       <div><strong>w</strong>: <span>Decrease 0.5Hz</span></div>
       <div><strong>o</strong>: <span>Increase 0.5Hz</span></div>
-
       <div><strong>e</strong>: <span>Decrease 0.05Hz</span></div>
       <div><strong>i</strong>: <span>Increase 0.05Hz</span></div>
     </div>
@@ -58,6 +64,26 @@
             }
           },
         },
+
+        // 1 to 7
+        49: { press: () => (frequency = note("C")) },
+        50: { press: () => (frequency = note("D")) },
+        51: { press: () => (frequency = note("E")) },
+        52: { press: () => (frequency = note("F")) },
+        53: { press: () => (frequency = note("G")) },
+        54: { press: () => (frequency = note("A")) },
+        55: { press: () => (frequency = note("B")) },
+      };
+
+      var note = (name) => notes[name].frequency;
+      var notes = {
+        C: { frequency: 130.81 },
+        D: { frequency: 146.83 },
+        E: { frequency: 164.81 },
+        F: { frequency: 174.61 },
+        G: { frequency: 196.0 },
+        A: { frequency: 220.0 },
+        B: { frequency: 246.94 },
       };
 
       var audioCtx = new AudioContext();
