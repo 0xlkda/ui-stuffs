@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SOUND</title>
+  </head>
+  <body>
+    <div>Frequence: <span id="frequency"></span> Hz</div>
+    <div>State: <span id="state"></span></div>
+    <br />
+    <div>
+      <div><strong>SPACE</strong>: <span>Play / Mute</span></div>
+
+      <div><strong>q</strong>: <span>Decrease 5Hz</span></div>
+      <div><strong>p</strong>: <span>Increase 5Hz</span></div>
+
+      <div><strong>w</strong>: <span>Decrease 0.5Hz</span></div>
+      <div><strong>o</strong>: <span>Increase 0.5Hz</span></div>
+
+      <div><strong>e</strong>: <span>Decrease 0.05Hz</span></div>
+      <div><strong>i</strong>: <span>Increase 0.05Hz</span></div>
+    </div>
+
+    <script type="text/javascript">
+      var state = "MUTE";
+
+      var frequency = 220;
+      var volume = 0;
+
+      var grossTune = 5;
+      var mediumTune = 0.5;
+      var fineTune = 0.05;
+
+      var keyCodes = {
+        80: { press: () => (frequency += grossTune) }, // p
+        81: { press: () => (frequency -= grossTune) }, //q
+
+        79: { press: () => (frequency += mediumTune) }, // o
+        87: { press: () => (frequency -= mediumTune) }, // w
+
+        73: { press: () => (frequency += fineTune) }, // i
+        69: { press: () => (frequency -= fineTune) }, // e
+
+        32: {
+          press: () => {
+            switch (state) {
+              case "MUTE":
+                volume = 0.7;
+                state = "PLAYING";
+                break;
+
+              case "PLAYING":
+                volume = 0;
+                state = "MUTE";
+                break;
+
+              default:
+                break;
+            }
+          },
+        },
+      };
+
+      var audioCtx = new AudioContext();
+      var gainNode = audioCtx.createGain();
+      var oscillatorNode = audioCtx.createOscillator();
+
+      gainNode.connect(audioCtx.destination);
+      oscillatorNode.connect(gainNode);
+      oscillatorNode.start();
+
+      document.addEventListener("keydown", function (event) {
+        audioCtx.resume();
+        keyCodes[event.keyCode]?.press();
+      });
+
+      // UI
+      (function manualLoop() {
+        function update() {
+          document.getElementById("frequency").innerHTML = frequency.toFixed(2);
+          document.getElementById("state").innerHTML = state;
+
+          gainNode.gain.value = volume;
+          oscillatorNode.frequency.value = frequency;
+        }
+
+        update();
+        requestAnimationFrame(manualLoop);
+      })();
+    </script>
+  </body>
+</html>
