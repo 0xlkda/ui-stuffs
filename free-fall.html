@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>How long does it take to free fall from X metres?</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      li {
+        list-style: none;
+      }
+
+      input {
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <input
+      name="height"
+      type="number"
+      min="0"
+      placeholder="1000"
+      value="1000"
+      onchange="calculateTime();"
+    />
+    <input
+      hidden
+      name="timestep"
+      type="number"
+      min="0.01"
+      placeholder="0.1"
+      value="0.1"
+      onchange="changeTimeStep(this);"
+    />
+    <ul id="result"></ul>
+    <script src="free-fall.js"></script>
+  </body>
+</html>
