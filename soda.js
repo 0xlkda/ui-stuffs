@@ -17,29 +17,38 @@ function randomRange(min, max) {
 }
 
 function randomSize() {
-  return randomRange(20, 100)
+  return randomRange(50, 100)
 }
 
 function randomMass() {
-  return randomRange(1, 10)
+  return randomRange(0.5, 10)
 }
 
 function update() {
   let particle = this
 
-  if (!particle.exploded) {
-    particle.x += randomRange(-particle.mass, particle.mass) * .2
-    particle.y -= particle.mass
+  switch (particle.state) {
+  case 'bubbling':
     particle.image = bubble
-  } else {
-    particle.image = exploded
-  }
+    particle.x += randomRange(-particle.mass, particle.mass) * .3
+    particle.y -= particle.mass
+    if (particle.y < 0) particle.dismiss()
+    break
 
-  if (particle.y < 0) {
+  case 'exploding':
+    particle.image = exploded
+    particle.dismiss()
+    break
+
+  case 'dismissed':
     particle.y = canvas.height
     particle.x = randomRange(0, canvas.width)
     particle.size = randomSize() 
-    particle.exploded = false
+    particle.bubble()
+    break
+
+  default:
+    throw new Error('unknown state')
   }
 
   return particle
@@ -57,17 +66,28 @@ function draw() {
 function drawImage() {
   let particle = this
   ctx.drawImage(particle.image, particle.x, particle.y, particle.size, particle.size)
+
+  const path = new Path2D()
+  const radius = particle.size / 2
+  path.arc(particle.x + radius, particle.y + radius, radius, 0, 2 * Math.PI)
+  particle.path = path
 }
+
 
 function makeParticle() {
   let particle = {
     x: randomRange(0, canvas.width),
-    y: randomRange(0, canvas.height),
+    y: canvas.height,
     size: randomSize(),
     mass: randomMass(),
     rgba: `rgba(${randomRange(0, 255)}, ${randomRange(0, 255)}, ${randomRange(0, 255)}, ${randomRange(0.1, 1)})`,
     image: bubble,
-    exploded: false
+
+    // states
+    state: 'bubbling',
+    bubble() { this.state = 'bubbling' },
+    explode() { this.state = 'exploding' },
+    dismiss() { setTimeout(() => this.state = 'dismissed', 500) },
   }
 
   particle.update = update 
@@ -85,9 +105,12 @@ function makeParticles(count) {
   return particles
 }
 
-let particles = makeParticles(50)
-
 function animate() {
+  if (count === END_GAME) {
+    alert('Well-done my friend.')
+    return
+  }
+
   ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -100,19 +123,21 @@ function animate() {
   requestAnimationFrame(animate)
 }
 
-animate()
-
-document.addEventListener('click', (e) => {
-  let particle = particles.find(particle => {
-    const path = new Path2D()
-    const r = particle.size / 2
-
-    path.arc(particle.x + r, particle.y + r, particle.size / 2, 0, 2 * Math.PI)
-    return ctx.isPointInPath(path, e.clientX, e.clientY)
-  })
+function popping(e) {
+  let particle = particles.find(particle => 
+    ctx.isPointInPath(particle.path, e.clientX, e.clientY))
 
   if (particle) {
-    particle.exploded = true
-    setTimeout(() => (particle.y = -100), 500)
+    particle.explode()
+    count++
+  } else {
+    particles.push(...makeParticles(randomRange(1, 3)))
   }
-})
+}
+
+const END_GAME = 100
+let count = 0
+let particles = makeParticles(1)
+
+animate()
+document.addEventListener('click', popping)
