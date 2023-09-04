@@ -17,7 +17,7 @@ function randomRange(min, max) {
 }
 
 function randomSize() {
-  return randomRange(1, 100)
+  return randomRange(20, 100)
 }
 
 function randomMass() {
@@ -39,6 +39,7 @@ function update() {
     particle.y = canvas.height
     particle.x = randomRange(0, canvas.width)
     particle.size = randomSize() 
+    particle.exploded = false
   }
 
   return particle
@@ -102,13 +103,16 @@ function animate() {
 animate()
 
 document.addEventListener('click', (e) => {
-  particles.forEach(particle => {
+  let particle = particles.find(particle => {
     const path = new Path2D()
-    path.arc(particle.x, particle.y, particle.size * 1.5, 0, 2 * Math.PI)
+    const r = particle.size / 2
 
-    if (ctx.isPointInPath(path, e.clientX, e.clientY)) {
-      particle.exploded = true
-      setTimeout(() => (particle.y = -1), 500)
-    }
+    path.arc(particle.x + r, particle.y + r, particle.size / 2, 0, 2 * Math.PI)
+    return ctx.isPointInPath(path, e.clientX, e.clientY)
   })
+
+  if (particle) {
+    particle.exploded = true
+    setTimeout(() => (particle.y = -100), 500)
+  }
 })
