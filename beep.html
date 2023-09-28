@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <button id="playButton">play</button>
+
+    <script>
+      const audioContext = new AudioContext();
+      const now = () => audioContext.currentTime;
+      const smoothingInterval = 0.02;
+      const beepLengthInSeconds = 0.5;
+
+      playButton.addEventListener(`click`, () => {
+        const beeps = [220, 440, 880].map((Hz) => createBeeper(Hz));
+        const note = (beeps.length * Math.random()) | 0;
+        beeps[note].play();
+      });
+
+      function createBeeper(Hz = 220, duration = beepLengthInSeconds) {
+        const gainNode = audioContext.createGain();
+        gainNode.connect(audioContext.destination);
+        gainNode.gain.setValueAtTime(0, now());
+
+        const osc = audioContext.createOscillator();
+        osc.frequency.value = Hz;
+        osc.connect(gainNode);
+        osc.start();
+
+        return {
+          play: (howLong = duration) => {
+            console.log(`playing ${Hz}Hz for ${howLong}s`);
+            trigger(gainNode.gain, howLong);
+          },
+        };
+      }
+
+      function trigger(parameter, howLong) {
+        parameter.setTargetAtTime(1, now(), smoothingInterval);
+        parameter.setTargetAtTime(0, now() + howLong, smoothingInterval);
+      }
+    </script>
+  </body>
+</html>
