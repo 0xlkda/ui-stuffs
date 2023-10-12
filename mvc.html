@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>JavasScript MVC experimental</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/index.css" rel="stylesheet" />
+    <script type="module" src="js/index.js" defer></script>
+  </head>
+  <body>
+    <div>
+      <button id="subscribe">Subscribe All</button>
+      <button id="unsubscribe">Unsubscribe All</button>
+    </div>
+
+    <div>
+      <label for="toggle-foo">
+        <span id="toggle-foo-label" >Unsubscribe Foo</span>
+        <input type="checkbox" id="toggle-foo" checked="true" />
+      </label>
+      <button id="set-foo">Add Foo</button>
+      <button id="delete-foo">Delete Foo</button>
+    </div>
+
+    <div>
+      <label for="toggle-bar">
+        <span id="toggle-bar-label" >Unsubscribe Bar</span>
+        <input type="checkbox" id="toggle-bar" checked="true" />
+      </label>
+      <button id="set-bar">Add Bar</button>
+      <button id="delete-bar">Delete Bar</button>
+    </div>
+    <hr />
+    <div id="foo"></div>
+    <div id="bar"></div>
+    <div id="debug"></div>
+  </body>
+</html>
