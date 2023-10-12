@@ -55,7 +55,7 @@ const State = {
 function repository(topics, notify) {
   const genId = item => item.id || hash(item)
 
-  // topics.add(topic)(item)
+  // topics.set(topic)(item)
   topics.set = function(topic) {
     return function(item) {
       topics[topic][genId(item)] = item
@@ -63,7 +63,7 @@ function repository(topics, notify) {
     }
   }
 
-  // topics.remove(topic)(item)
+  // topics.delete(topic)(item)
   topics.delete = function(topic) {
     return function(item) {
       delete topics[topic][genId(item)]
@@ -71,7 +71,7 @@ function repository(topics, notify) {
     }
   }
 
-  // topics.topic.add / remove
+  // topics.topic.set / delete
   for (const topic of Object.keys(topics)) {
     topics[topic].set = topics.set(topic)
     topics[topic].delete = topics.delete(topic)
